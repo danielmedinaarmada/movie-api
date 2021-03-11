@@ -1,0 +1,32 @@
+db.createUser(
+  {
+    user: "superAdmin",
+    pwd: "troyaangel02",
+    roles: [ { role: "root", db: "admin" } ]
+  })
+
+
+db.createUser({
+user: "global",
+pwd: "troyaangel02",
+roles: [ { role: "readwrite", db: "platzivideos_db" } ]
+})
+
+db.addUser({ user:"global", pwd:"luci1234", roles:["readWrite","platzivideos_db"] })
+
+
+db.addUser({ user:"global", pwd: "luci1234", roles:["readWrite","platzivideos_db"] });
+
+db.addUser({ user:"global", pwd:"luci1234", roles:["readWrite","platzivideos_db"] })
+
+db.addUser({ user: "global", pwd: "luci1234", roles: ["readWrite"] })
+
+
+mongodb+srv://global:$luci1234@localhost:27017/platzivideos_db?retryWrites=true&w=majority
+
+const MONGO_URI = `mongo {config.dbHost}/${DB_NAME} -u ${USER} -p ${PASSWORD}`;
+
+mongo localhost/platzivideos_db -u global -p luci1234
+
+
+mongo --port 27017 -u "global" -p "luci1234" --authenticationDatabase "platzivideos_db"

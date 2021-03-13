@@ -10,6 +10,11 @@ const {
 } = require('../utils/schema/movies');
 
 const validationHandler = require('../utils/middleware/validationHandler');
+const cacheResponse = require('../utils/cacheResponse');
+const {
+  FIVE_MINUTES_IN_SECONDS,
+  SIXTY_MINUTES_IN_SECONDS
+} = require('../utils/time');
 
 //es crear un Function, va a recibir una aplicacion de express lo que nos permite es ser dinamicos y tener el control sobre que aplicación va a consumir nuestras rutas 
 function moviesApi(app) {
@@ -25,6 +30,7 @@ function moviesApi(app) {
   const moviesService = new MoviesService();
 
   router.get("/", async function (req, res, next) {
+    cacheResponse(res, FIVE_MINUTES_IN_SECONDS);
     const { tags } = req.query;
     try {
       //como este código es simplemente un array, debemos envolverlo en una promesa, para que podamos hacer uso de nuestro código asincrono mendiante la palabra await, en este caso vamos a resolver con el moviesMock 
@@ -45,6 +51,7 @@ function moviesApi(app) {
 
   //listar una pelicula
   router.get("/:movieId", validationHandler({ movieId: movieIdSchema }, "params"), async function (req, res, next) {
+    cacheResponse(res, SIXTY_MINUTES_IN_SECONDS);
     const { movieId } = req.params;
     try {
       const movie = await moviesService.getMovie({ movieId });
